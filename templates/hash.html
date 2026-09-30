@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SHA-256 — NovaSec</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            font-family: 'Poppins', sans-serif;
+
+            min-height: 100vh;
+
+            background: linear-gradient(
+                135deg,
+                #fff7fb 0%,
+                #fce8f3 50%,
+                #f7eafa 100%
+            );
+
+            color: #3d3045;
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .navbar {
+
+            height: 75px;
+
+            background: rgba(255, 255, 255, 0.90);
+
+            backdrop-filter: blur(10px);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 55px;
+
+            border-bottom: 1px solid #f0e1ec;
+
+            box-shadow: 0 4px 20px rgba(151, 91, 132, 0.06);
+        }
+
+
+        .logo {
+
+            font-size: 25px;
+
+            font-weight: 700;
+
+            color: #3d3045;
+
+            text-decoration: none;
+        }
+
+
+        .logo span {
+
+            color: #b16da6;
+        }
+
+
+        .nav-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 25px;
+        }
+
+
+        .user {
+
+            font-size: 13px;
+
+            color: #817286;
+        }
+
+
+        .logout {
+
+            text-decoration: none;
+
+            color: #a56aa2;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            padding: 9px 16px;
+
+            border: 1px solid #e5cde0;
+
+            border-radius: 10px;
+
+            transition: 0.2s;
+        }
+
+
+        .logout:hover {
+
+            background: #f9edf7;
+
+            border-color: #c995c0;
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+
+            flex: 1;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 50px 20px;
+        }
+
+
+        .container {
+
+            width: 850px;
+
+            max-width: 100%;
+        }
+
+
+        /* =====================================================
+           TITRE
+        ===================================================== */
+
+        .page-header {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+
+        .icon {
+
+            width: 75px;
+
+            height: 75px;
+
+            margin: 0 auto 18px;
+
+            border-radius: 22px;
+
+            background: linear-gradient(
+                135deg,
+                #e8b5d1,
+                #d7b7e7
+            );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 35px;
+
+            box-shadow:
+                0 10px 25px rgba(168, 117, 181, 0.18);
+        }
+
+
+        .page-header h1 {
+
+            font-size: 30px;
+
+            color: #3d3045;
+
+            margin-bottom: 8px;
+        }
+
+
+        .page-header p {
+
+            font-size: 13px;
+
+            color: #8f8294;
+        }
+
+
+        /* =====================================================
+           CARD
+        ===================================================== */
+
+        .card {
+
+            background: rgba(255, 255, 255, 0.94);
+
+            border-radius: 25px;
+
+            padding: 40px;
+
+            border: 1px solid #f0e1ec;
+
+            box-shadow:
+                0 20px 50px rgba(151, 91, 132, 0.12);
+        }
+
+
+        .label {
+
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            color: #59465e;
+
+            margin-bottom: 10px;
+        }
+
+
+        textarea {
+
+            width: 100%;
+
+            min-height: 160px;
+
+            resize: vertical;
+
+            padding: 17px;
+
+            border: 1.5px solid #eadce8;
+
+            border-radius: 14px;
+
+            outline: none;
+
+            font-family: 'Poppins', sans-serif;
+
+            font-size: 13px;
+
+            color: #46364b;
+
+            background: #fffafd;
+
+            transition: 0.25s;
+        }
+
+
+        textarea:focus {
+
+            border-color: #c889b4;
+
+            background: white;
+
+            box-shadow:
+                0 0 0 4px rgba(200, 137, 180, 0.10);
+        }
+
+
+        textarea::placeholder {
+
+            color: #b8aeba;
+        }
+
+
+        /* =====================================================
+           BUTTON
+        ===================================================== */
+
+        .button {
+
+            width: 100%;
+
+            height: 50px;
+
+            margin-top: 18px;
+
+            border: none;
+
+            border-radius: 13px;
+
+            background: linear-gradient(
+                135deg,
+                #c77eaa,
+                #a875b5
+            );
+
+            color: white;
+
+            font-family: 'Poppins', sans-serif;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+
+            box-shadow:
+                0 8px 20px rgba(168, 117, 181, 0.20);
+        }
+
+
+        .button:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 25px rgba(168, 117, 181, 0.28);
+        }
+
+
+        /* =====================================================
+           RESULTAT
+        ===================================================== */
+
+        .result {
+
+            margin-top: 30px;
+
+            padding-top: 28px;
+
+            border-top: 1px solid #eee1eb;
+        }
+
+
+        .result-title {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 10px;
+        }
+
+
+        .result-title span {
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            color: #59465e;
+        }
+
+
+        .copy-button {
+
+            border: none;
+
+            background: #f8edf6;
+
+            color: #9c6297;
+
+            padding: 7px 13px;
+
+            border-radius: 8px;
+
+            font-family: 'Poppins', sans-serif;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .copy-button:hover {
+
+            background: #f1ddeb;
+        }
+
+
+        .hash-box {
+
+            width: 100%;
+
+            padding: 18px;
+
+            border-radius: 13px;
+
+            background: #faf5fa;
+
+            border: 1px solid #eadce8;
+
+            font-family: monospace;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+
+            color: #795576;
+
+            word-break: break-all;
+        }
+
+
+        .success {
+
+            margin-top: 10px;
+
+            font-size: 11px;
+
+            color: #7b9a7b;
+
+            display: none;
+        }
+
+
+        /* =====================================================
+           BACK
+        ===================================================== */
+
+        .back {
+
+            display: block;
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #9a7195;
+
+            text-decoration: none;
+
+            font-size: 12px;
+
+            font-weight: 500;
+        }
+
+
+        .back:hover {
+
+            color: #7d4c79;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+
+                padding: 0 20px;
+            }
+
+            .user {
+
+                display: none;
+            }
+
+            .card {
+
+                padding: 25px;
+            }
+
+            .page-header h1 {
+
+                font-size: 25px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ===================================================== -->
+
+    <nav class="navbar">
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="logo"
+        >
+            Nova<span>Sec</span>
+        </a>
+
+
+        <div class="nav-right">
+
+            <span class="user">
+                🔐 Outil de sécurité
+            </span>
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="logout"
+            >
+                Déconnexion
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ===================================================== -->
+
+    <main class="main">
+
+        <div class="container">
+
+
+            <!-- HEADER -->
+
+            <div class="page-header">
+
+                <div class="icon">
+                    🔐
+                </div>
+
+                <h1>
+                    Générateur SHA-256
+                </h1>
+
+                <p>
+                    Transformez un texte en empreinte cryptographique sécurisée.
+                </p>
+
+            </div>
+
+
+
+            <!-- CARD -->
+
+            <div class="card">
+
+
+                <form
+                    method="POST"
+                    action="{{ url_for('hash_tool') }}"
+                >
+
+                    <label
+                        for="text"
+                        class="label"
+                    >
+                        Texte à hacher
+                    </label>
+
+
+                    <textarea
+                        id="text"
+                        name="text"
+                        placeholder="Entrez votre texte ici..."
+                        required
+                    >{{ original_text }}</textarea>
+
+
+                    <button
+                        type="submit"
+                        class="button"
+                    >
+                        🔐 Calculer l'empreinte SHA-256
+                    </button>
+
+                </form>
+
+
+
+                {% if result %}
+
+                <div class="result">
+
+                    <div class="result-title">
+
+                        <span>
+                            Empreinte SHA-256
+                        </span>
+
+
+                        <button
+                            type="button"
+                            class="copy-button"
+                            onclick="copyHash()"
+                        >
+                            📋 Copier
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="hash-box"
+                        id="hashResult"
+                    >
+                        {{ result }}
+                    </div>
+
+
+                    <div
+                        class="success"
+                        id="copyMessage"
+                    >
+                        ✓ Empreinte copiée dans le presse-papiers
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+
+            </div>
+
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="back"
+            >
+                ← Retour au Dashboard
+            </a>
+
+
+        </div>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ===================================================== -->
+
+    <script>
+
+        function copyHash() {
+
+            const hash =
+                document.getElementById("hashResult").innerText;
+
+            navigator.clipboard.writeText(hash)
+                .then(function() {
+
+                    const message =
+                        document.getElementById("copyMessage");
+
+                    message.style.display = "block";
+
+                    setTimeout(function() {
+
+                        message.style.display = "none";
+
+                    }, 2500);
+
+                })
+                .catch(function() {
+
+                    alert(
+                        "Impossible de copier l'empreinte."
+                    );
+
+                });
+        }
+
+    </script>
+
+
+</body>
+
+</html>

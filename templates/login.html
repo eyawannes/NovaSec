@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Connexion | NovaSec</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="auth-page">
+
+    <!-- Barre de navigation -->
+    <nav class="auth-navbar">
+        <a href="{{ url_for('accueil') }}" class="auth-logo">
+            Nova<span>Sec</span>
+            <span class="logo-dot">.</span>
+        </a>
+
+        <a href="{{ url_for('accueil') }}" class="home-link">
+            <span>←</span> Accueil
+        </a>
+    </nav>
+
+    <!-- Contenu principal -->
+    <main class="auth-main">
+
+        <div class="auth-card">
+
+            <!-- Panneau de présentation -->
+            <section class="auth-welcome">
+
+                <div class="welcome-badge">
+                    <span class="welcome-dot"></span>
+                    Votre sécurité, notre priorité
+                </div>
+
+                <div class="welcome-illustration">
+                    <div class="illustration-circle">
+                        <div class="illustration-shield">♙</div>
+                        <div class="floating-lock">🔐</div>
+                        <div class="floating-star">✦</div>
+                    </div>
+                </div>
+
+                <h1>Bienvenue dans votre<br>
+                    espace sécurisé.</h1>
+
+                <p>
+                    Retrouvez vos outils d'authentification
+                    et de cryptographie dans un seul espace.
+                </p>
+
+                <div class="welcome-footer">
+                    <span>✦</span> Simple. Sécurisé. NovaSec.
+                </div>
+
+            </section>
+
+            <!-- Formulaire de connexion -->
+            <section class="auth-form-section">
+
+                <div class="form-heading">
+                    <div class="form-icon">🔐</div>
+
+                    <p class="form-eyebrow">BON RETOUR PARMI NOUS</p>
+
+                    <h2>Connexion</h2>
+
+                    <p class="form-description">
+                        Connectez-vous pour accéder à votre espace.
+                    </p>
+                </div>
+
+                <form method="POST"
+                      action="{{ url_for('login') }}"
+                      class="auth-form">
+
+                    <div class="form-group">
+                        <label for="email">Adresse email</label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="exemple@email.com"
+                            autocomplete="email"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <div class="password-label">
+                            <label for="password">Mot de passe</label>
+                        </div>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Entrez votre mot de passe"
+                            autocomplete="current-password"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="auth-submit">
+                        Se connecter
+                        <span>→</span>
+                    </button>
+
+                </form>
+
+                <div class="auth-divider">
+                    <span>ESPACE PERSONNEL</span>
+                </div>
+
+                <p class="register-prompt">
+                    Vous n'avez pas encore de compte ?
+                    <a href="{{ url_for('register') }}">
+                        Créer un compte
+                    </a>
+                </p>
+
+                <div class="privacy-note">
+                    <span>🛡️</span>
+                    Vos données sont protégées.
+                </div>
+
+            </section>
+
+        </div>
+
+        <p class="auth-copyright">
+            © 2026 NovaSec · Secure Authentication & Cryptography
+        </p>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>NovaSec - Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        :root {
+            --pink: #e9a8c5;
+            --pink-light: #fff0f6;
+            --mauve: #91618b;
+            --mauve-dark: #68465f;
+            --text: #493b4b;
+            --muted: #817485;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--text);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff7fa,
+                    #f8f0ff
+                );
+
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .dashboard-navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 20px 7%;
+
+            background: rgba(255, 255, 255, 0.94);
+
+            border-bottom: 1px solid #f2dce8;
+
+            box-shadow:
+                0 4px 18px
+                rgba(130, 81, 119, 0.05);
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--text);
+        }
+
+        .logo span {
+            color: var(--mauve);
+        }
+
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            font-size: 14px;
+        }
+
+        .logout-link {
+            padding: 10px 16px;
+
+            color: var(--mauve);
+
+            background: var(--pink-light);
+
+            border-radius: 12px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+        .logout-link:hover {
+            background: #f8dce9;
+            transform: translateY(-1px);
+        }
+
+        /* =====================================================
+           CONTAINER
+        ===================================================== */
+
+        .dashboard-container {
+            max-width: 1150px;
+
+            margin: 0 auto;
+
+            padding: 45px 24px;
+        }
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .dashboard-header {
+            padding: 38px;
+
+            border-radius: 26px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #fbe0ec,
+                    #eee2fa
+                );
+
+            border: 1px solid #f0d7e7;
+
+            margin-bottom: 30px;
+        }
+
+        .dashboard-label {
+            color: var(--mauve);
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            letter-spacing: 2px;
+        }
+
+        .dashboard-header h1 {
+            font-size: clamp(27px, 4vw, 38px);
+
+            margin: 13px 0;
+        }
+
+        .dashboard-header p {
+            line-height: 1.7;
+
+            color: #756779;
+        }
+
+        .welcome-tag {
+            display: inline-block;
+
+            margin-top: 12px;
+
+            padding: 9px 14px;
+
+            border-radius: 20px;
+
+            background: rgba(255, 255, 255, 0.7);
+
+            color: var(--mauve);
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+        /* =====================================================
+           SECURITY CARDS
+        ===================================================== */
+
+        .security-cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 18px;
+
+            margin-bottom: 45px;
+        }
+
+        .security-card {
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+            padding: 23px;
+
+            background: var(--white);
+
+            border: 1px solid #f1e4ed;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(110, 72, 110, 0.05);
+        }
+
+        .card-icon {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            width: 48px;
+            height: 48px;
+
+            border-radius: 15px;
+
+            background: var(--pink-light);
+
+            font-size: 23px;
+        }
+
+        .security-card h3 {
+            margin: 0 0 7px;
+
+            font-size: 15px;
+        }
+
+        .security-card p {
+            margin: 0;
+
+            color: #6b9a7d;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+        /* =====================================================
+           SECTION TITLE
+        ===================================================== */
+
+        .section-title {
+            margin-bottom: 24px;
+        }
+
+        .section-title h2 {
+            margin: 10px 0;
+
+            font-size: 27px;
+        }
+
+        .section-title > p:last-child {
+            color: var(--muted);
+
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           TOOLS
+        ===================================================== */
+
+        .tools-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 20px;
+        }
+
+        .tool-card {
+            display: flex;
+
+            flex-direction: column;
+
+            padding: 28px;
+
+            background: var(--white);
+
+            border: 1px solid #f1e4ed;
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(110, 72, 110, 0.05);
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 14px 30px
+                rgba(110, 72, 110, 0.09);
+        }
+
+        .tool-icon {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 50px;
+            height: 50px;
+
+            border-radius: 15px;
+
+            background: var(--pink-light);
+
+            font-size: 23px;
+        }
+
+        .tool-card h3 {
+            margin: 18px 0 10px;
+
+            font-size: 19px;
+        }
+
+        .tool-card p {
+            min-height: 48px;
+
+            margin: 0 0 15px;
+
+            color: var(--muted);
+
+            line-height: 1.7;
+
+            font-size: 14px;
+        }
+
+        .tool-button {
+            display: inline-block;
+
+            align-self: flex-start;
+
+            margin-top: auto;
+
+            padding: 12px 17px;
+
+            border: 0;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #dca0c0,
+                    #aa83b6
+                );
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .tool-button:hover {
+            opacity: 0.88;
+
+            transform: translateY(-1px);
+        }
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        .security-status {
+            margin-top: 35px;
+
+            padding: 22px 25px;
+
+            background: #ffffff;
+
+            border: 1px solid #e6f0e8;
+
+            border-radius: 18px;
+        }
+
+        .status-heading {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+
+            border-radius: 50%;
+
+            background: #65b987;
+
+            box-shadow:
+                0 0 0 4px #e6f7ec;
+        }
+
+        .security-status p {
+            margin-bottom: 0;
+
+            color: var(--muted);
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer {
+            padding: 25px 15px;
+
+            text-align: center;
+
+            color: var(--muted);
+
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 700px) {
+
+            .dashboard-navbar {
+                padding: 17px 5%;
+
+                gap: 12px;
+            }
+
+            .nav-user {
+                gap: 10px;
+
+                font-size: 12px;
+            }
+
+            .dashboard-container {
+                padding: 28px 16px;
+            }
+
+            .dashboard-header {
+                padding: 25px;
+            }
+
+            .security-cards,
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <nav class="dashboard-navbar">
+
+        <a
+            class="logo"
+            href="{{ url_for('dashboard') }}"
+        >
+            Nova<span>Sec</span>
+        </a>
+
+
+        <div class="nav-user">
+
+            <span>
+                Bonjour, {{ current_user.first_name }} 👋
+            </span>
+
+            <a
+                class="logout-link"
+                href="{{ url_for('logout') }}"
+            >
+                Déconnexion ↗
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="dashboard-container">
+
+
+        <!-- WELCOME -->
+
+        <section class="dashboard-header">
+
+            <p class="dashboard-label">
+                VOTRE ESPACE SÉCURISÉ
+            </p>
+
+            <h1>
+                Bienvenue {{ current_user.first_name }} 🌸
+            </h1>
+
+            <p>
+                Gérez vos outils de sécurité et de cryptographie
+                depuis votre espace personnel NovaSec.
+            </p>
+
+            <span class="welcome-tag">
+                ✦ Authentification réussie
+            </span>
+
+        </section>
+
+
+        <!-- SECURITY STATUS CARDS -->
+
+        <section class="security-cards">
+
+
+            <div class="security-card">
+
+                <div class="card-icon">
+                    🔐
+                </div>
+
+                <div>
+
+                    <h3>
+                        Authentification
+                    </h3>
+
+                    <p>
+                        ● Session active
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="security-card">
+
+                <div class="card-icon">
+                    🛡️
+                </div>
+
+                <div>
+
+                    <h3>
+                        Espace personnel
+                    </h3>
+
+                    <p>
+                        ● Accès protégé
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="security-card">
+
+                <div class="card-icon">
+                    🔑
+                </div>
+
+                <div>
+
+                    <h3>
+                        Cryptographie
+                    </h3>
+
+                    <p>
+                        ● 4 outils disponibles
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =================================================
+             TOOLS
+        ================================================== -->
+
+        <section class="tools-section">
+
+
+            <div class="section-title">
+
+                <p class="dashboard-label">
+                    LES OUTILS NOVASEC
+                </p>
+
+                <h2>
+                    Sécurité & Cryptographie
+                </h2>
+
+                <p>
+                    Utilisez les différents outils de NovaSec
+                    pour analyser, protéger et sécuriser vos données.
+                </p>
+
+            </div>
+
+
+            <div class="tools-grid">
+
+
+                <!-- SHA-256 -->
+
+                <article class="tool-card">
+
+                    <div class="tool-icon">
+                        #️⃣
+                    </div>
+
+                    <h3>
+                        Hachage sécurisé
+                    </h3>
+
+                    <p>
+                        Générez une empreinte SHA-256 pour vérifier
+                        l'intégrité de vos données.
+                    </p>
+
+                    <a
+                        class="tool-button"
+                        href="{{ url_for('hash_tool') }}"
+                    >
+                        Utiliser SHA-256 →
+                    </a>
+
+                </article>
+
+
+                <!-- AES -->
+
+                <article class="tool-card">
+
+                    <div class="tool-icon">
+                        🔒
+                    </div>
+
+                    <h3>
+                        Chiffrement AES
+                    </h3>
+
+                    <p>
+                        Chiffrez et déchiffrez vos données avec
+                        AES-256-GCM et une dérivation de clé PBKDF2.
+                    </p>
+
+                    <a
+                        class="tool-button"
+                        href="{{ url_for('aes_tool') }}"
+                    >
+                        Utiliser AES →
+                    </a>
+
+                </article>
+
+
+                <!-- RSA -->
+
+                <article class="tool-card">
+
+                    <div class="tool-icon">
+                        🗝️
+                    </div>
+
+                    <h3>
+                        Cryptographie RSA
+                    </h3>
+
+                    <p>
+                        Générez des clés RSA et explorez le
+                        chiffrement asymétrique avec une paire de clés.
+                    </p>
+
+                    <a
+                        class="tool-button"
+                        href="{{ url_for('rsa_tool') }}"
+                    >
+                        Utiliser RSA →
+                    </a>
+
+                </article>
+
+
+                <!-- PASSWORD GENERATOR -->
+
+                <article class="tool-card">
+
+                    <div class="tool-icon">
+                        🛡️
+                    </div>
+
+                    <h3>
+                        Générateur de mots de passe
+                    </h3>
+
+                    <p>
+                        Créez des mots de passe robustes,
+                        aléatoires et personnalisables.
+                    </p>
+
+                    <a
+                        class="tool-button"
+                        href="{{ url_for('password_generator') }}"
+                    >
+                        Générer un mot de passe →
+                    </a>
+
+                </article>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             SECURITY STATUS
+        ================================================== -->
+
+        <section class="security-status">
+
+            <div class="status-heading">
+
+                <span class="status-dot"></span>
+
+                <strong>
+                    Votre espace est actif
+                </strong>
+
+            </div>
+
+            <p>
+                Vous êtes connecté à NovaSec.
+                Pensez à vous déconnecter lorsque vous avez
+                terminé votre session.
+            </p>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        © 2026 NovaSec —
+        Secure Authentication & Cryptography
+
+    </footer>
+
+
+</body>
+
+</html>

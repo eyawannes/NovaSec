@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.env
+instance/
+novasec.db
+.venv/
+venv/
+.vscode/
